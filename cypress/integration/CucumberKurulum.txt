@@ -1,0 +1,71 @@
+
+
+1)https://www.npmjs.com/package/cypress-cucumber-preprocessor bu adrese gittik
+2)npm install --save-dev cypress-cucumber-preprocessor bunu terminale yapistirdik ve enter diyerek plugini yukledik
+3)(Cypress configuration kismindan Bu koduda yukaridaki siteden aldık ve plugins icindeki index.js icine ekledik)
+       
+        const cucumber = require('cypress-cucumber-preprocessor').default
+        module.exports = (on, config) => {
+        on('file:preprocessor', cucumber())
+        }
+
+bu kodu ;
+cypress/plugins/index.js   bunun icine yapistirdik(cucumber olusturmamızı saglayacak)
+
+4)
+Add support for feature files to your Cypress configuration kısmıda aynı siteden 
+altaki json formatindaki kismi aldik ve cypress.json kısmına yapistirdik
+
+    {
+    "testFiles": "**/*.feature"
+    }
+
+
+5)Ayni siteden aldigimiz ;
+
+        "cypress-cucumber-preprocessor": {
+        "nonGlobalStepDefinitions": true
+        } 
+
+kodunu package.json dosyasina yapistirdik
+
+6)import { Given, And, Then, When} from "cypress-cucumber-preprocessor/steps";
+Yukaridaki kodu step definition file'nin basina yapistirdik
+
+***Yukaridaki islemler sayesinde cucumber'i kullanabilecegiz***
+
+NOT=> feature file dosya ismi ile step definition klosorunun ismi ayni olmak zorundadir
+
+***********************************************
+
+TESTLERİ CALIŞTIRMA
+NOT: 
+.bin/cypress run./node_modules/
+./node_modules/.bin/cypress-tags run -e TAGS='@manager_id'
+Tag'ı @manager_id olan testi çalıştır
+./node_modules/.bin/cypress-tags run -e TAGS='@smoke'
+Tag'ı '@smoke' olan testi çalıştır
+./node_modules/.bin/cypress-tags run -e TAGS='not @manager_id'
+Tag'ı @manager_id olanlar hariç hepsini çalıştır
+
+
+NOT:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+**.bin/cypress run./node_modules/ yapıstırınca hata olunca 
+terminalde ozaman yukarıdaki set ile baslayan kodu yapıstır enter yap
+ sonra tekrar ılk yapıstırdıgımızı yapıstır ve enter yap ve butun testler calısıın
+
+Windows makinelerde hata alırsanız yukarıdaki kodu çalıştırın önce
+
+*****
+./node_modules/.bin/cypress-tags run -e TAGS='@manager_id'
+
+****Bu kodu terminale yapıstirinca taga ait kısmı calıstırır sadece
+
+****
+./node_modules/.bin/cypress-tags run -e TAGS='not @manager_id'
+****Bunun sayesinde yazdıgımız tag dısındakı testleri calıstırabılıyoruz
+
+***
+
